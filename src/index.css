@@ -1,0 +1,333 @@
+/* --------------------------------
+   1. Imports and Framework Setup
+-------------------------------- */
+@import url('https://fonts.cdnfonts.com/css/general-sans');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------
+   2. Global Styles
+-------------------------------- */
+body {
+  width: 100dvw;
+  overflow-x: hidden;
+  font-family: 'General Sans', sans-serif;
+}
+video,
+img,
+p,
+h1,
+h2,
+h3,
+a {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* --------------------------------
+   3. Scrollbar Customization
+-------------------------------- */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+  background: #c1c1c1;
+}
+::-webkit-scrollbar-thumb {
+  background: #323232;
+}
+/* --------------------------------
+   4. Font Declarations
+-------------------------------- */
+@layer base {
+  @font-face {
+    font-family: 'circular-web';
+    src: url('/fonts/circularweb-book.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'general';
+    src: url('/fonts/general.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'robert-medium';
+    src: url('/fonts/robert-medium.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'robert-regular';
+    src: url('/fonts/robert-regular.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'zentry';
+    src: url('/fonts/zentry-regular.woff2') format('woff2');
+    font-display: swap;
+  }
+}
+/* --------------------------------
+   5. Utility Classes
+-------------------------------- */
+@layer utilities {
+  /* ---- Global Utility Classes ---- */
+  .full-height {
+    height: 100vh;
+    height: 100dvh; /* adjusting form mobile view if svh is available */
+  }
+  .center {
+    @apply flex items-center justify-center;
+  }
+  .center-position {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+  .special-font span {
+    font-family: 'Zentry';
+    font-feature-settings: 'ss01' on;
+  }
+  /* ---- Hero Section ---- */
+  .video-player {
+    @apply center-position object-cover;
+  }
+  .hero-heading {
+    @apply font-zentry text-5xl font-black sm:text-6xl md:text-8xl lg:text-[11rem];
+  }
+  /* -- Player Preview -- */
+  @keyframes pulse-size {
+    0% {
+      width: 11rem;
+      height: 11rem;
+    }
+    50% {
+      width: 13rem;
+      height: 13rem;
+    }
+    100% {
+      width: 11rem;
+      height: 11rem;
+    }
+  }
+
+  .pulse-size {
+    animation: pulse-size ease-in-out 1s infinite;
+  }
+  /* -- Trailer Button -- */
+  .trailer-button {
+    transition: all 0.4s ease-out;
+    transform-style: preserve-3d;
+    will-change: contents;
+  }
+
+  .trailer-button:hover {
+    transform: translateZ(10px) rotateX(10deg) rotateY(20deg);
+  }
+
+  /* ---- About Section ---- */
+  /* ---- Navbar ---- */
+  .white-arrow {
+    @apply fill-white text-white;
+  }
+  .black-arrow {
+    @apply fill-black text-black;
+  }
+  .navbar-link {
+    @apply center z-[100] block h-full w-1/5 gap-2 font-semibold transition-colors delay-75 duration-75 ease-linear hover:text-black;
+  }
+  .navbar-link > svg {
+    @apply transition-colors delay-75 duration-75 ease-linear;
+  }
+  #navbar-hover-effect {
+    @apply absolute top-1/2 hidden h-full w-1/5 -translate-y-1/2 rounded-full bg-blue-75 transition-[left] duration-150 ease-linear;
+  }
+  .navbar-link:hover ~ #navbar-hover-effect {
+    @apply block;
+  }
+  .navbar-link:hover > svg {
+    @apply !black-arrow;
+  }
+  .navbar-link:nth-child(1):hover ~ #navbar-hover-effect {
+    @apply left-0;
+  }
+  .navbar-link:nth-child(2):hover ~ #navbar-hover-effect {
+    @apply left-[20%];
+  }
+  .navbar-link:nth-child(3):hover ~ #navbar-hover-effect {
+    @apply left-[40%];
+  }
+  .navbar-link:nth-child(4):hover ~ #navbar-hover-effect {
+    @apply left-[60%];
+  }
+  .navbar-link:nth-child(5):hover ~ #navbar-hover-effect {
+    @apply left-[80%];
+  }
+  /* ---- Features Section ---- */
+  .card-violet > div {
+    @apply bg-violet-300;
+  }
+  .bento-title {
+    @apply font-zentry text-4xl font-black uppercase md:text-6xl;
+  }
+  .card-button {
+    @apply center cursor-pointer gap-2 rounded-full border-2 border-current bg-black px-6 py-2 text-xs max-md:px-4 max-md:py-1 max-md:text-[0.5rem] max-sm:text-[0.4rem];
+  }
+
+  /* ---- contact Section ---- */
+  .hovering-effect {
+    @apply transition-transform ease-linear [perspective:1000px] group-hover:[transform:rotateX(var(--rotate-x))_rotateY(var(--rotate-y))];
+  }
+  .contact-clip-path-1 {
+    clip-path: path(
+      'M 313.12 177.443 L 313.12 177.443 Q 321.015 176.151 320.149 184.104 L 299.567 373.059 Q 298.7 381.012 290.879 382.693 L 137.553 415.655 Q 129.732 417.336 128.784 409.393 L 106.112 219.409 Q 105.164 211.465 113.059 210.173 Z'
+    );
+  }
+  .contact-clip-path-2 {
+    clip-path: path(
+      'M 337.402 256.052 L 337.402 256.052 Q 344.775 259.158 342.563 266.846 L 284.713 467.905 Q 282.501 475.593 275.148 472.442 L 52.7734 377.157 Q 45.42 374.006 49.718 367.259 L 162.126 190.79 Q 166.424 184.043 173.797 187.148 Z'
+    );
+  }
+  .contact-clip-path-3 {
+    clip-path: path(
+      'M 241.892 86.4691 L 241.892 86.4691 Q 249.795 87.708 247.763 95.4456 L 206.664 251.938 Q 204.632 259.676 196.641 259.293 L 59.5421 252.717 Q 51.5513 252.334 53.1599 244.497 L 88.8622 70.5697 Q 90.4708 62.7331 98.3743 63.972 Z'
+    );
+  }
+}
+
+/* ---- Loading Animation ---- */
+/* From Uiverse.io by G4b413l */
+/* https://uiverse.io/G4b413l/tidy-walrus-92 */
+.three-body {
+  --uib-size: 35px;
+  --uib-speed: 0.8s;
+  --uib-color: #5d3fd3;
+  position: relative;
+  display: inline-block;
+  height: var(--uib-size);
+  width: var(--uib-size);
+  animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+}
+
+.three-body__dot {
+  position: absolute;
+  height: 100%;
+  width: 30%;
+}
+
+.three-body__dot:after {
+  content: '';
+  position: absolute;
+  height: 0%;
+  width: 100%;
+  padding-bottom: 100%;
+  background-color: var(--uib-color);
+  border-radius: 50%;
+}
+
+.three-body__dot:nth-child(1) {
+  bottom: 5%;
+  left: 0;
+  transform: rotate(60deg);
+  transform-origin: 50% 85%;
+}
+
+.three-body__dot:nth-child(1)::after {
+  bottom: 0;
+  left: 0;
+  animation: wobble1 var(--uib-speed) infinite ease-in-out;
+  animation-delay: calc(var(--uib-speed) * -0.3);
+}
+
+.three-body__dot:nth-child(2) {
+  bottom: 5%;
+  right: 0;
+  transform: rotate(-60deg);
+  transform-origin: 50% 85%;
+}
+
+.three-body__dot:nth-child(2)::after {
+  bottom: 0;
+  left: 0;
+  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
+    ease-in-out;
+}
+
+.three-body__dot:nth-child(3) {
+  bottom: -5%;
+  left: 0;
+  transform: translateX(116.666%);
+}
+
+.three-body__dot:nth-child(3)::after {
+  top: 0;
+  left: 0;
+  animation: wobble2 var(--uib-speed) infinite ease-in-out;
+}
+
+@keyframes spin78236 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wobble1 {
+  0%,
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-66%) scale(0.65);
+    opacity: 0.8;
+  }
+}
+
+@keyframes wobble2 {
+  0%,
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(66%) scale(0.65);
+    opacity: 0.8;
+  }
+}
+
+/* From Uiverse.io by mobinkakei */
+.btn span {
+  transition: top 0.5s;
+}
+
+.btn-text-one {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.btn-text-two {
+  position: absolute;
+  width: 100%;
+  top: 150%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.btn:hover .btn-text-one {
+  top: -100%;
+}
+
+.btn:hover .btn-text-two {
+  top: 50%;
+}
