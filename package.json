@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+    "homepage": "https://ahmedhanye.github.io/awwwards/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

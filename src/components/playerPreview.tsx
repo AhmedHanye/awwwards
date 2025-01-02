@@ -108,7 +108,7 @@ const PlayerPreview = ({
         className="pulse-size center overflow-hidden rounded-lg border-2 border-black"
       >
         <img
-          src={`/img/hero-${(currentVideoIndex % 4) + 1}.webp`}
+          src={`img/hero-${(currentVideoIndex % 4) + 1}.webp`}
           alt="Preview card img"
           className="size-52 object-cover"
           draggable="false"

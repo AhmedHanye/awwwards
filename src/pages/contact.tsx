@@ -30,21 +30,21 @@ const Contact = () => {
         </div>
         <div className="hovering-effect contact-clip-path-1 absolute -top-[6.4rem] left-4 size-96 max-md:hidden">
           <img
-            src="/img/contact-1.webp"
+            src="img/contact-1.webp"
             className="size-[36rem] object-cover pt-32"
             alt="contact img 1"
           />
         </div>
         <div className="hovering-effect contact-clip-path-2 absolute bottom-0 right-[60%] size-96 max-md:hidden">
           <img
-            src="/img/contact-2.webp"
+            src="img/contact-2.webp"
             className="size-96 object-cover"
             alt="contact img 2"
           />
         </div>
         <div className="hovering-effect contact-clip-path-3 absolute -right-16 -top-32 size-80 max-md:-right-0">
           <img
-            src="/img/swordman.webp"
+            src="img/swordman.webp"
             className="size-[18rem] object-cover p-4"
             alt="swordman img"
           />

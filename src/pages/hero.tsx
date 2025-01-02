@@ -47,8 +47,8 @@ const Hero = () => {
     if (primaryVideoRef.current) {
       const nextVideoIndex = (currentVideoIndex % 4) + 1;
       primaryVideoRef.current.pause();
-      primaryVideoRef.current.poster = `/img/hero-${nextVideoIndex}.webp`;
-      primaryVideoRef.current.src = `/videos/hero-${nextVideoIndex}.mp4`;
+      primaryVideoRef.current.poster = `img/hero-${nextVideoIndex}.webp`;
+      primaryVideoRef.current.src = `videos/hero-${nextVideoIndex}.mp4`;
     }
 
     // Swap video references for next transition
@@ -162,12 +162,12 @@ const Hero = () => {
           loop
           playsInline
           className="video-player z-10 size-full"
-          poster="/img/hero-1.webp"
+          poster="img/hero-1.webp"
           draggable="false"
           controls={false}
           disablePictureInPicture
         >
-          <source src="/videos/hero-1.mp4" type="video/mp4" />
+          <source src="videos/hero-1.mp4" type="video/mp4" />
         </video>
         <video
           ref={secondaryVideoRef}
@@ -176,12 +176,12 @@ const Hero = () => {
           loop
           playsInline
           className="video-player z-0 size-52"
-          poster="/img/hero-2.webp"
+          poster="img/hero-2.webp"
           draggable="false"
           controls={false}
           disablePictureInPicture
         >
-          <source src="/videos/hero-2.mp4" type="video/mp4" />
+          <source src="videos/hero-2.mp4" type="video/mp4" />
         </video>
         <h1 className="special-font hero-heading absolute bottom-4 right-5 z-30 text-blue-100">
           G<span>A</span>MING

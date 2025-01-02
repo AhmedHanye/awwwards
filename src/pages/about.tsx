@@ -48,14 +48,14 @@ const About = () => {
           </p>
         </div>
         <img
-          src="/img/stones.webp"
+          src="img/stones.webp"
           className="center-position z-20 size-full object-cover"
           alt="stones img"
           draggable="false"
         />
         <img
           ref={aboutImgRef}
-          src="/img/about.webp"
+          src="img/about.webp"
           className="z-10 size-full object-cover max-lg:scale-x-125 max-md:scale-x-[2]"
           alt="about img"
           draggable="false"

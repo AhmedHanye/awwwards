@@ -95,7 +95,7 @@ const Card = ({ title, description, video, box }: CardProps) => {
         </div>
         {box === 6 && (
           <img
-            src="/favicon.ico"
+            src="favicon.ico"
             className="absolute bottom-4 right-4 size-6 md:size-8 lg:size-12"
             alt="logo"
           />
