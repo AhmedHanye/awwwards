@@ -1,6 +1,7 @@
-# [Zentry](https://zentry.com/) A Modern React Landing Page
+# Awwwards: A Modern React Landing Page
 
 A high-performance React landing page application built with modern web technologies and best practices.
+Is replicating some of the [Zentry](https://zentry.com/) landing page.
 
 ## 🚀 Technologies
 
