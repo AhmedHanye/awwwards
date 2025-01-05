@@ -26,6 +26,7 @@ const Story = () => {
             style={{
               clipPath: 'polygon(4% 0, 83% 21%, 100% 73%, 0% 100%)',
             }}
+            loading="lazy"
           />
         </div>
         <div className="absolute bottom-3 right-3 w-1/3 pe-2 max-md:w-2/3 md:pe-5 lg:pe-10">

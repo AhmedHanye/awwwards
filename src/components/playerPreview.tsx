@@ -112,6 +112,7 @@ const PlayerPreview = ({
           alt="Preview card img"
           className="size-52 object-cover"
           draggable="false"
+          loading="lazy"
         />
       </div>
     </div>

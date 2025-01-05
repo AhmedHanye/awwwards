@@ -33,6 +33,7 @@ const Contact = () => {
             src="img/contact-1.webp"
             className="size-[36rem] object-cover pt-32"
             alt="contact img 1"
+            loading='lazy'
           />
         </div>
         <div className="hovering-effect contact-clip-path-2 absolute bottom-0 right-[60%] size-96 max-md:hidden">
@@ -40,6 +41,7 @@ const Contact = () => {
             src="img/contact-2.webp"
             className="size-96 object-cover"
             alt="contact img 2"
+            loading='lazy'
           />
         </div>
         <div className="hovering-effect contact-clip-path-3 absolute -right-16 -top-32 size-80 max-md:-right-0">
@@ -47,6 +49,7 @@ const Contact = () => {
             src="img/swordman.webp"
             className="size-[18rem] object-cover p-4"
             alt="swordman img"
+            loading='lazy'
           />
         </div>
       </div>

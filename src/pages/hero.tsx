@@ -1,57 +1,49 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import CardHoverEffect from '../hook/cardHoverEffect';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { useRef, useState } from 'react';
-import PlayerPreview from '../components/playerPreview';
-import { ScrollTrigger } from 'gsap/all';
 import { SendHorizontal } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
-  // State Management
-  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(1);
-  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const primaryVideoRef = useRef<HTMLVideoElement>(null);
+  const secondaryVideoRef = useRef<HTMLVideoElement>(null);
+
+  const [nextVideoIndex, setNextVideoIndex] = useState<number>(1);
   const [isVideoTransitioning, setIsVideoTransitioning] =
     useState<boolean>(false);
 
-  // DOM References
-  const containerRef = useRef<HTMLDivElement>(null);
-  const primaryVideoRef = useRef<HTMLVideoElement>(null);
-  const secondaryVideoRef = useRef<HTMLVideoElement>(null);
-  const previewCardRef = useRef<HTMLDivElement>(null);
-  const vidoeContainerRef = useRef<HTMLDivElement>(null);
+  const handleMouseMove = CardHoverEffect();
+  const handleVideoTransition = useCallback(() => {
+    if (isVideoTransitioning) return;
 
-  /**
-   * Handles the video transition request
-   * Prevents multiple transitions from occurring simultaneously
-   */
-  const initiateVideoTransition = () =>
-    isVideoTransitioning ||
-    (setCurrentVideoIndex((prev) => (prev % 4) + 1),
-    setIsVideoTransitioning(true));
+    setNextVideoIndex((prev) => (prev % 4) + 1);
+    setIsVideoTransitioning(true);
+  }, [isVideoTransitioning]);
 
-  /**
-   * Begins the transition animation sequence
-   * Starts playback of the incoming video
-   */
-  const startTransitionSequence = () => {
-    secondaryVideoRef.current?.play();
-  };
+  const handleVideoSwitch = () => {
+    if (!primaryVideoRef.current || !secondaryVideoRef.current) return;
 
-  /**
-   * Completes the transition animation sequence
-   * - Pauses the outgoing video
-   * - Updates video sources
-   * - Swaps video references
-   */
-  const completeTransitionSequence = () => {
-    if (primaryVideoRef.current) {
-      const nextVideoIndex = (currentVideoIndex % 4) + 1;
-      primaryVideoRef.current.pause();
-      primaryVideoRef.current.poster = `img/hero-${nextVideoIndex}.webp`;
-      primaryVideoRef.current.src = `videos/hero-${nextVideoIndex}.mp4`;
-    }
+    // Update primary video
+    primaryVideoRef.current.poster = `img/hero-${(nextVideoIndex % 4) + 1}.webp`;
+    primaryVideoRef.current.src = `videos/hero-${(nextVideoIndex % 4) + 1}.mp4`;
+    primaryVideoRef.current.load();
+    primaryVideoRef.current.pause();
+    primaryVideoRef.current.classList.replace(
+      'primary-video',
+      'secondary-video',
+    );
 
-    // Swap video references for next transition
+    // Update secondary video
+    secondaryVideoRef.current.classList.replace(
+      'secondary-video',
+      'primary-video',
+    );
+
+    primaryVideoRef.current.removeAttribute('style');
+    secondaryVideoRef.current.removeAttribute('style');
+
+    // Swap refs using state management
     [primaryVideoRef.current, secondaryVideoRef.current] = [
       secondaryVideoRef.current,
       primaryVideoRef.current,
@@ -60,59 +52,54 @@ const Hero = () => {
     setIsVideoTransitioning(false);
   };
 
-  // GSAP Animation Setup
   useGSAP(() => {
-    if (isFirstRender) return setIsFirstRender(false);
-
-    const transitionTimeline = gsap.timeline({
-      onStart: startTransitionSequence,
-      onComplete: completeTransitionSequence,
+    if (!isVideoTransitioning) return;
+    const tl = gsap.timeline({
+      onStart: () => {
+        secondaryVideoRef.current?.play();
+      },
+      onComplete: handleVideoSwitch,
     });
-
-    // Video transition animation sequence
-    transitionTimeline
-      .to(previewCardRef.current, {
-        scale: 0,
-        duration: 0,
-      })
-      .to(primaryVideoRef.current, {
-        zIndex: 0,
-        duration: 0,
-      })
+    tl.to(secondaryVideoRef.current, {
+      // ! stop wiggling through the transition
+      transform: 'none',
+      duration: 0,
+    })
       .to(secondaryVideoRef.current, {
-        zIndex: 10,
-        duration: 0,
-      })
-      .to(secondaryVideoRef.current, {
+        // * expand the secondary video
         width: '100%',
         height: '100%',
-        duration: 0.4,
+        borderRadius: '0',
+        outline: 'none',
         ease: 'power3.inOut',
+        duration: 0.3,
       })
       .to(primaryVideoRef.current, {
-        width: '13rem',
-        height: '13rem',
-        duration: 0,
-      })
-      .to(previewCardRef.current, {
-        scale: 1,
-        duration: 0.25,
+        // * shrink the primary video
+        width: '0',
+        height: '0',
+        duration: 0.3,
         ease: 'power3.inOut',
       });
-  }, [currentVideoIndex]);
+  }, [isVideoTransitioning]);
 
-  // Clip path animation on scroll
-  // Transforms the video container from a rectangle to a trapezoid shape
-  // as the user scrolls down the page
+  useEffect(() => {
+    const videoElement = secondaryVideoRef.current;
+    videoElement?.addEventListener('click', handleVideoTransition);
+    return () => {
+      videoElement?.removeEventListener('click', handleVideoTransition);
+    };
+  }, [handleVideoTransition]);
+
   useGSAP(() => {
-    gsap.set(vidoeContainerRef.current, {
+    gsap.set(videoContainerRef.current, {
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
     });
-    gsap.to(vidoeContainerRef.current, {
+    gsap.to(videoContainerRef.current, {
       clipPath: 'polygon(0 0, 50% 0, 89% 100%, 31% 100%)',
       ease: 'power3.inOut', // Smoother easing
       scrollTrigger: {
-        trigger: vidoeContainerRef.current,
+        trigger: videoContainerRef.current,
         start: '25% 25%',
         end: '100% center',
         scrub: 1,
@@ -123,37 +110,26 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="full-height center relative"
-      ref={containerRef}
+      className="full-height group relative"
+      onMouseMove={handleMouseMove}
     >
-      <div className="absolute left-10 top-24 z-30 max-md:left-5">
-        <h1 className="special-font hero-heading text-blue-100">
-          REDEFI<span>N</span>E
-        </h1>
-        <p className="font-robert-regular text-blue-100 max-lg:text-sm max-md:text-xs">
-          Enter the Metagame <br />
-          Unleash the Play Economy
-        </p>
-        <button
-          id="watch-trailer"
-          title="Watch trailer"
-          className="center trailer-button mt-5 gap-x-2 rounded-2xl bg-yellow-300 px-6 py-2 font-general text-[0.7rem] font-bold"
-        >
-          <SendHorizontal fill="black" size={12} /> WATCH TRAILER
-        </button>
-      </div>
-
-      <div
-        className="center relative z-10 size-full overflow-hidden"
-        id="video-container"
-        ref={vidoeContainerRef}
-      >
-        <PlayerPreview
-          previewRef={previewCardRef}
-          containerRef={containerRef}
-          onPreviewClick={initiateVideoTransition}
-          currentVideoIndex={currentVideoIndex}
-        />
+      <div className="center relative z-30 size-full" ref={videoContainerRef}>
+        <div className="absolute left-10 top-24 z-20 max-md:left-5">
+          <h1 className="special-font hero-heading text-blue-100">
+            REDEFI<span>N</span>E
+          </h1>
+          <p className="font-robert-regular text-blue-100 max-lg:text-sm max-md:text-xs">
+            Enter the Metagame <br />
+            Unleash the Play Economy
+          </p>
+          <button
+            id="watch-trailer"
+            title="Watch trailer"
+            className="center trailer-button mt-5 gap-x-2 rounded-2xl bg-yellow-300 px-6 py-2 font-general text-[0.7rem] font-bold"
+          >
+            <SendHorizontal fill="black" size={12} /> WATCH TRAILER
+          </button>
+        </div>
         <video
           ref={primaryVideoRef}
           preload="auto"
@@ -161,7 +137,7 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="video-player z-10 size-full"
+          className="primary-video"
           poster="img/hero-1.webp"
           draggable="false"
           controls={false}
@@ -175,7 +151,7 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="video-player z-0 size-52"
+          className="secondary-video"
           poster="img/hero-2.webp"
           draggable="false"
           controls={false}
@@ -183,11 +159,11 @@ const Hero = () => {
         >
           <source src="videos/hero-2.mp4" type="video/mp4" />
         </video>
-        <h1 className="special-font hero-heading absolute bottom-4 right-5 z-30 text-blue-100">
+        <h1 className="special-font hero-heading absolute bottom-4 right-5 z-20 text-blue-100">
           G<span>A</span>MING
         </h1>
       </div>
-      <h1 className="special-font hero-heading absolute bottom-4 right-5 z-0 text-black">
+      <h1 className="special-font hero-heading absolute bottom-4 right-5 text-black">
         G<span>A</span>MING
       </h1>
     </section>

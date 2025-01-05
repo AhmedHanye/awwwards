@@ -56,6 +56,7 @@ const Navbar = () => {
             height={42}
             className="max-lg:size-8"
             alt="logo"
+            loading="lazy"
           />
         </a>
         <button className="btn relative h-8 w-28 overflow-hidden rounded-full bg-blue-75 font-semibold max-lg:h-6 max-lg:w-20">

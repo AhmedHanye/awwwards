@@ -1,8 +1,6 @@
 /* --------------------------------
    1. Imports and Framework Setup
 -------------------------------- */
-@import url('https://fonts.cdnfonts.com/css/general-sans');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -40,37 +38,36 @@ a {
 /* --------------------------------
    4. Font Declarations
 -------------------------------- */
-@layer base {
-  @font-face {
-    font-family: 'circular-web';
-    src: url('/fonts/circularweb-book.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'general';
-    src: url('/fonts/general.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'robert-medium';
-    src: url('/fonts/robert-medium.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'robert-regular';
-    src: url('/fonts/robert-regular.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'zentry';
-    src: url('/fonts/zentry-regular.woff2') format('woff2');
-    font-display: swap;
-  }
+@font-face {
+  font-family: 'circular-web';
+  src: url('/fonts/circularweb-book.woff2') format('woff2');
+  font-display: swap;
 }
+
+@font-face {
+  font-family: 'general';
+  src: url('/fonts/general.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'robert-medium';
+  src: url('/fonts/robert-medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'robert-regular';
+  src: url('/fonts/robert-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'zentry';
+  src: url('/fonts/zentry-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
 /* --------------------------------
    5. Utility Classes
 -------------------------------- */
@@ -91,30 +88,20 @@ a {
     font-feature-settings: 'ss01' on;
   }
   /* ---- Hero Section ---- */
-  .video-player {
-    @apply center-position object-cover;
+  .tr {
+    transition:
+      width 0.3s ease-in-out,
+      height 0.3s ease-in-out,
+      transform 0.01s ease-in-out;
+  }
+  .primary-video {
+    @apply center-position size-full object-cover;
+  }
+  .secondary-video {
+    @apply tr z-10 size-0 cursor-pointer rounded-xl object-cover [perspective:1000px] group-hover:size-52 group-hover:outline group-hover:[transform:rotateX(calc(var(--rotate-x)_*_2))_rotateY(calc(var(--rotate-y)_*_2))];
   }
   .hero-heading {
     @apply font-zentry text-5xl font-black sm:text-6xl md:text-8xl lg:text-[11rem];
-  }
-  /* -- Player Preview -- */
-  @keyframes pulse-size {
-    0% {
-      width: 11rem;
-      height: 11rem;
-    }
-    50% {
-      width: 13rem;
-      height: 13rem;
-    }
-    100% {
-      width: 11rem;
-      height: 11rem;
-    }
-  }
-
-  .pulse-size {
-    animation: pulse-size ease-in-out 1s infinite;
   }
   /* -- Trailer Button -- */
   .trailer-button {

@@ -98,6 +98,7 @@ const Card = ({ title, description, video, box }: CardProps) => {
             src="favicon.ico"
             className="absolute bottom-4 right-4 size-6 md:size-8 lg:size-12"
             alt="logo"
+            loading='lazy'
           />
         )}
       </div>
